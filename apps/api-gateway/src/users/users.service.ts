@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { IUser } from '@app/shared/interfaces/user.interface';
+import { CreateUser } from '@app/shared/interfaces/create-user.interface';
+import { UpdateUser } from '@app/shared/interfaces/update-user.interface';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -9,14 +10,14 @@ export class UsersService {
         @Inject('USER_SERVICE') private client: ClientProxy,
       ) {}
     
-    async createUser(user: IUser): Promise<any>{
+    async createUser(user: CreateUser): Promise<any>{
         const result =  await lastValueFrom(this.client.send({ cmd: 'createUser' }, user));
         return result
     }
 
-    async updateUser(): Promise<any>{
-        //const result =  await firstValueFrom(this.client.send({ cmd: 'login' }, loginData));
-        return "result"
+    async updateUser(id:string, updatedData: UpdateUser ): Promise<any>{
+        const result =  await lastValueFrom(this.client.send({ cmd: 'updateUser' }, {id,updatedData}));
+        return result
     }
 
     async getAllUsers() : Promise<any>{

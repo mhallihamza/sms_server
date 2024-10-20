@@ -17,4 +17,14 @@ export class AppointmentsService {
         const result =  await lastValueFrom(this.client.send({ cmd: 'getAllAppointments' }, id));
         return result
     }
+
+    async findAllAppointmentsDetails(id: string) : Promise<any>{
+        const result =  await lastValueFrom(this.client.send({ cmd: 'findAllAppointmentsDetails' }, id));
+        return result
+    }
+
+    async deleteAppointment(id: string) : Promise<any>{
+        const result =  await lastValueFrom(this.client.send({ cmd: 'deleteAppointment' }, id));
+        return result;
+    }
 }

@@ -5,7 +5,8 @@ export class CreateCustomerDto {
     phoneNumber: string;
     profilePicture?: string;
     address?: string;
-    isLoyalCustomer?: boolean;
+    isLoyalCustomer: boolean;
+    gender: 'Male' | 'Female' | 'Other';
     notes?: string;
     userId: string
     }

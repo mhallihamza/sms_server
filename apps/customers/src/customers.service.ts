@@ -25,4 +25,11 @@ export class CustomersService {
     return customers
   }
 
+  async deleteCustomer(id:string):Promise<any> {
+    const customer = await this.userRepository.findOneBy({
+    customerId: id,
+    })
+    const result = await this.userRepository.remove(customer)
+    return result;
+  }
 }

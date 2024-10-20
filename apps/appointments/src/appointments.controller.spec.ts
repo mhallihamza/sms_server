@@ -13,10 +13,4 @@ describe('AppointmentsController', () => {
 
     appointmentsController = app.get<AppointmentsController>(AppointmentsController);
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appointmentsController.getHello()).toBe('Hello World!');
-    });
-  });
 });

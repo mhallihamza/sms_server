@@ -3,5 +3,8 @@ export interface IService {
     description: string;
     image: string;
     isActive: boolean;
+    minDuration: number;
+    maxDuration: number;
+    startPrice: number;
     userId: string
 }

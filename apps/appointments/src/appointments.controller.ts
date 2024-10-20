@@ -6,13 +6,23 @@ import { MessagePattern } from '@nestjs/microservices';
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
-  @MessagePattern({ cmd: 'createCustomer' })
-  createCustomer(data:any):Promise<any> {
+  @MessagePattern({ cmd: 'createAppointment' })
+  createAppointment(data:any):Promise<any> {
     return this.appointmentsService.createAppointment(data)
   }
 
-  @MessagePattern({ cmd: 'getAllCustomers' })
-  findAllCustomers(id:string):Promise<any> {
+  @MessagePattern({ cmd: 'getAllAppointments' })
+  findAllAppointmennts(id:string):Promise<any> {
     return this.appointmentsService.findAllAppointments(id)
+  }
+  
+  @MessagePattern({ cmd: 'findAllAppointmentsDetails' })
+  findAllAppointmentsDetails(id:string):Promise<any> {
+    return this.appointmentsService.findAllAppointmentsDetails(id)
+  }
+
+  @MessagePattern({ cmd: 'deleteAppointment' })
+  deleteAppointment(id:string):Promise<any> {
+    return this.appointmentsService.deleteAppointment(id)
   }
 }

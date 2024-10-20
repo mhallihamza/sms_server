@@ -26,6 +26,9 @@ export class Customer {
   @Column({ type: 'boolean', default: false })
   isLoyalCustomer: boolean;
 
+  @Column({ type: 'enum', enum: ['Male', 'Female', 'Other'], default: 'Other' })
+  gender: 'Male' | 'Female' | 'Other';
+
   @Column({ type: 'uuid', nullable: false })
   userId: string;
 

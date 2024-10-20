@@ -14,6 +14,15 @@ export class Service {
   @Column({ type: 'varchar', nullable: true })
   image: string; // URL or file path of the image
 
+  @Column({ type: 'int', nullable: true })
+  minDuration: number;
+
+  @Column({ type: 'int', nullable: true })
+  maxDuration: number; // URL or file path of the image
+
+  @Column({ type: 'int', nullable: true })
+  startPrice: number;
+
   @Column({ type: 'uuid', nullable: false })
   userId: string;
 

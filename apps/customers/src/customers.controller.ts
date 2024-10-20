@@ -15,4 +15,9 @@ export class CustomersController {
   findAllCustomers(id:string):Promise<any> {
     return this.customersService.findAllCustomers(id)
   }
+
+  @MessagePattern({ cmd: 'deleteCustomer' })
+  deleteCustomer(id:string):Promise<any> {
+    return this.customersService.deleteCustomer(id)
+  }
 }

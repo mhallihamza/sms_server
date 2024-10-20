@@ -17,6 +17,9 @@ export class Treatment {
   @Column({ type: 'decimal', precision: 5, scale: 2 })
   price: number;
 
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
+
   @Column({ type: 'int' })
   duration: number; // Duration in minutes
   

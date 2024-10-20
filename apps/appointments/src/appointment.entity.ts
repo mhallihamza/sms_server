@@ -14,7 +14,13 @@ export class Appointment {
   @Column({ type: 'uuid', nullable: false })
   userId: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'uuid', nullable: false })
+  staffId: string;
+
+  @Column({ type: 'uuid', nullable: false })
+  treatmentId: string;
+
+  @Column({ type: 'date' })
   appointmentDate: Date;
 
   @Column({ type: 'time' })

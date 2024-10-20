@@ -3,5 +3,8 @@ export class CreateServiceDto {
     description: string;
     image: string;
     isActive: boolean;
+    minDuration: number;
+    maxDuration: number;
+    startPrice: number;
     userId: string
     }

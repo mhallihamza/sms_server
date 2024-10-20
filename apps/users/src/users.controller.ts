@@ -20,4 +20,9 @@ export class UsersController {
   findAllUsers():Promise<any> {
     return this.usersService.findAllUsers()
   }
+
+  @MessagePattern({ cmd: 'updateUser' })
+  updateUser(data:any):Promise<any> {
+    return this.usersService.updateUser({id:data.id, updatedData: data.updatedData})
+  }
 }
