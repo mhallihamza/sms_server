@@ -16,7 +16,7 @@ export class CustomersController {
     }
 
     @Delete(':id')
-    async deleteAppointment(@Param('id') id: string) {
+    async deleteCustomer(@Param('id') id: string) {
         return this.customersService.deleteCustomer(id)
     }
 }

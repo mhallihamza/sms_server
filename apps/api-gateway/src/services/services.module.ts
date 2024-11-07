@@ -8,7 +8,7 @@ import { ServicesService } from './services.service';
         {
           name: 'SERVICE_SERVICE',
           transport: Transport.TCP,
-          options: { host: 'localhost', port: 3006 },
+          options: { host: 'services', port: 3006 },
         },
       ]),
     ],

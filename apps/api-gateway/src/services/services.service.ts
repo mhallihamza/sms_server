@@ -17,4 +17,9 @@ export class ServicesService {
         const result =  await lastValueFrom(this.client.send({ cmd: 'getAllServices' }, id));
         return result
     }
+
+    async deleteService(id: string) : Promise<any>{
+        const result = await lastValueFrom(this.client.send({ cmd: 'deleteService' }, id))
+        return result
+    }
 }

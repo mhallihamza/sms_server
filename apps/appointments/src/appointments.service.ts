@@ -13,39 +13,80 @@ export class AppointmentsService {
     private readonly userRepository: Repository<Appointment>,
     @Inject('CUSTOMER_SERVICE') private clientCustomer: ClientProxy,
     @Inject('TREATMENT_SERVICE') private clientTreatment: ClientProxy,
-    @Inject('STAFF_SERVICE') private clientStaff: ClientProxy
+    @Inject('STAFF_SERVICE') private clientStaff: ClientProxy,
   ) {}
 
-  async createAppointment(appointment:IAppointment):Promise<any> {
+  async createAppointment(appointment: IAppointment): Promise<any> {
     const res = await this.userRepository.save(appointment);
     console.log(res);
-    return `Appointment created successfully`
+    return `Appointment created successfully`;
   }
 
-  async findAllAppointments(id:string):Promise<any> {
+  async findAllAppointments(id: string): Promise<any> {
     const appointments = await this.userRepository.find({
-      where: {userId: id}
+      where: { userId: id },
     });
-    return appointments
+    return appointments;
   }
 
-  async findAllAppointmentsDetails(id:string):Promise<any> {
+  async findAllAppointmentsDetails(id: string): Promise<any> {
     const appointments = await this.userRepository.find({
-      where: {userId: id}
+      where: { userId: id },
     });
-    const customers = await lastValueFrom(this.clientCustomer.send({ cmd: 'getAllCustomers' }, id));
-    const treatments = await lastValueFrom(this.clientTreatment.send({ cmd: 'getAllTreatments' }, id));
-    const staff = await lastValueFrom(this.clientStaff.send({ cmd: 'getAllStaff' }, id));
-    return appointments.map(appointment => ({
-      ...appointment, "customer": customers.find(el => el.customerId === appointment.customerId), "treatment": treatments.find(el => el.treatmentId === appointment.treatmentId), "staff": staff.find(el => el.staffId === appointment.staffId)
-    }))
+    const customers = await lastValueFrom(
+      this.clientCustomer.send({ cmd: 'getAllCustomers' }, id),
+    );
+    const treatments = await lastValueFrom(
+      this.clientTreatment.send({ cmd: 'getAllTreatments' }, id),
+    );
+    const staff = await lastValueFrom(
+      this.clientStaff.send({ cmd: 'getAllStaff' }, id),
+    );
+    return appointments.map((appointment) => ({
+      ...appointment,
+      customer: customers.find(
+        (el) => el.customerId === appointment.customerId,
+      ),
+      treatment: treatments.find(
+        (el) => el.treatmentId === appointment.treatmentId,
+      ),
+      staff: staff.find((el) => el.staffId === appointment.staffId),
+    }));
   }
 
-  async deleteAppointment(id:string):Promise<any> {
+  async deleteAppointment(id: string): Promise<any> {
     const appointment = await this.userRepository.findOneBy({
-    appointmentId: id,
-    })
-    const result = await this.userRepository.remove(appointment)
+      appointmentId: id,
+    });
+    const result = await this.userRepository.remove(appointment);
+    return result;
+  }
+
+  async deleteAppointmentByCustomer(id: string): Promise<any> {
+    const result = await this.userRepository.delete({
+      customerId: id,
+    });
+    return result;
+  }
+
+  async deleteAppointmentByStaff(id: string): Promise<any> {
+    const result = await this.userRepository.delete({
+      staffId: id,
+    });
+    return result;
+  }
+
+  async deleteAppointmentByTreatment(id: string): Promise<any> {
+    const result = await this.userRepository.delete({
+      treatmentId: id,
+    });
+    return result;
+  }
+
+  async deleteAppointmentByService(id: string): Promise<any> {
+    const result = await this.userRepository.delete({
+      serviceId: id,
+    });
     return result;
   }
 }

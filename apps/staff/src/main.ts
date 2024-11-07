@@ -6,7 +6,7 @@ async function bootstrap() {
     StaffModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3005 },
+      options: { host: 'staff', port: 3005 },
     },
   );
   await app.listen();

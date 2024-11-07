@@ -7,7 +7,7 @@ async function bootstrap() {
     UsersModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3002 },
+      options: { host: 'users', port: 3002 },
     },
   );
   await app.listen();

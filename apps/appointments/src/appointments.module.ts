@@ -9,19 +9,21 @@ import { Appointment } from './appointment.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath:'./apps/appointments/.env'
+      envFilePath: './apps/appointments/.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-      type: 'postgres',
-      host: configService.get<string>('DATABASE_HOST'),
-      port: configService.get<number>('DATABASE_PORT'),
-      username: configService.get<string>('DATABASE_USER'),
-      password: configService.get<string>('DATABASE_PASSWORD'),
-      database: configService.get<string>('DATABASE_NAME'),
-      entities: [Appointment],
-      synchronize: true, // For development
+        type: 'postgres',
+        host: configService.get<string>('DATABASE_HOST'),
+        username: configService.get<string>('DATABASE_USER'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [Appointment],
+        synchronize: false, // Always set to false in production
+        migrations: [__dirname + '/migrations/*.ts'], // Location of migrations
+        migrationsRun: configService.get<string>('NODE_ENV') === 'production',
+        ssl: { require: true, rejectUnauthorized: false },
       }),
       inject: [ConfigService],
     }),
@@ -30,19 +32,19 @@ import { Appointment } from './appointment.entity';
       {
         name: 'CUSTOMER_SERVICE',
         transport: Transport.TCP,
-        options: { host: 'localhost', port: 3003 },
+        options: { host: 'customers', port: 3003 },
       },
       {
         name: 'TREATMENT_SERVICE',
         transport: Transport.TCP,
-        options: { host: 'localhost', port: 3007 },
+        options: { host: 'treatments', port: 3007 },
       },
       {
-          name: 'STAFF_SERVICE',
-          transport: Transport.TCP,
-          options: { host: 'localhost', port: 3005 },
-        },
-    ])
+        name: 'STAFF_SERVICE',
+        transport: Transport.TCP,
+        options: { host: 'staff', port: 3005 },
+      },
+    ]),
   ],
   controllers: [AppointmentsController],
   providers: [AppointmentsService],

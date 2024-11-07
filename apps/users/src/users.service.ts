@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUser } from '@app/shared/interfaces/create-user.interface';
 import { UpdateUser } from '@app/shared/interfaces/update-user.interface';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 @Injectable()
 export class UsersService {
   private readonly saltRounds = 10; // Number of salt rounds

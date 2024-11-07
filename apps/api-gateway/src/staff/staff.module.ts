@@ -9,7 +9,7 @@ import { StaffService } from './staff.service';
         {
           name: 'STAFF_SERVICE',
           transport: Transport.TCP,
-          options: { host: 'localhost', port: 3005 },
+          options: { host: 'staff', port: 3005 },
         },
       ]),
     ],

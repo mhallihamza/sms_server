@@ -10,19 +10,21 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath:'./apps/auth/.env'
+      envFilePath: './apps/auth/.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-      type: 'postgres',
-      host: configService.get<string>('DATABASE_HOST'),
-      port: configService.get<number>('DATABASE_PORT'),
-      username: configService.get<string>('DATABASE_USER'),
-      password: configService.get<string>('DATABASE_PASSWORD'),
-      database: configService.get<string>('DATABASE_NAME'),
-      entities: [AuthUser],
-      synchronize: true, // For development
+        type: 'postgres',
+        host: configService.get<string>('DATABASE_HOST'),
+        username: configService.get<string>('DATABASE_USER'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_NAME'),
+        entities: [AuthUser],
+        synchronize: false, // Always set to false in production
+        migrations: [__dirname + '/migrations/*.ts'], // Location of migrations
+        migrationsRun: configService.get<string>('NODE_ENV') === 'production',
+        ssl: { require: true, rejectUnauthorized: false },
       }),
       inject: [ConfigService],
     }),
@@ -31,9 +33,9 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       {
         name: 'USER_SERVICE',
         transport: Transport.TCP,
-        options: { host: 'localhost', port: 3002 },
+        options: { host: 'users', port: 3002 },
       },
-    ])
+    ]),
   ],
   controllers: [AuthController],
   providers: [AuthService],

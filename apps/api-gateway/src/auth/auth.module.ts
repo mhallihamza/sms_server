@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
       {
         name: 'AUTH_SERVICE',
         transport: Transport.TCP,
-        options: { host: 'localhost', port: 3001 },
+        options: { host: 'auth', port: 3001 },
       },
     ]),
   ],

@@ -20,6 +20,6 @@ export class CustomersService {
 
     async deleteCustomer(id: string) : Promise<any>{
         const result =  await lastValueFrom(this.client.send({ cmd: 'deleteCustomer' }, id));
-        return result;
+        return result
     }
 }

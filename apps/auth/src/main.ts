@@ -6,7 +6,7 @@ async function bootstrap() {
     AuthModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3001 },
+      options: { host: 'auth', port: 3001 },
     },
   );
   await app.listen();

@@ -6,7 +6,7 @@ async function bootstrap() {
     CustomersModule,
     {
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 3003 },
+      options: { host: 'customers', port: 3003 },
     },
   );
   await app.listen();

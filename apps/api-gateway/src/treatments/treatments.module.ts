@@ -8,7 +8,7 @@ import { TreatmentsService } from './treatments.service';
           {
             name: 'TREATMENT_SERVICE',
             transport: Transport.TCP,
-            options: { host: 'localhost', port: 3007 },
+            options: { host: 'treatments', port: 3007 },
           },
         ]),
       ],
