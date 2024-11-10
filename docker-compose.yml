@@ -1,0 +1,93 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+    image: mhallihamza/sms_api-gateway
+    container_name: api-gateway
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+  
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    image: mhallihamza/sms_auth
+    container_name: auth
+    ports:
+      - '3001:3001'
+    networks:
+      - app-network
+    
+  users:
+    build:
+      context: .
+      dockerfile: ./apps/users/Dockerfile
+    image: mhallihamza/sms_users
+    container_name: users
+    ports:
+      - '3002:3002'
+    networks:
+      - app-network  
+
+  customers:
+    build:
+      context: .
+      dockerfile: ./apps/customers/Dockerfile
+    image: mhallihamza/sms_customers
+    container_name: customers
+    ports:
+      - '3003:3003'
+    networks:
+      - app-network
+    
+  appointments:
+    build:
+      context: .
+      dockerfile: ./apps/appointments/Dockerfile
+    image: mhallihamza/sms_appointments
+    container_name: appointments
+    ports:
+      - '3004:3004'
+    networks:
+      - app-network
+    
+  staff:
+    build:
+      context: .
+      dockerfile: ./apps/staff/Dockerfile
+    image: mhallihamza/sms_staff
+    container_name: staff
+    ports:
+      - '3005:3005'
+    networks:
+      - app-network
+    
+  services:
+    build:
+      context: .
+      dockerfile: ./apps/services/Dockerfile
+    image: mhallihamza/sms_services
+    container_name: services
+    ports:
+      - '3006:3006'
+    networks:
+      - app-network
+  
+  treatments:
+    build:
+      context: .
+      dockerfile: ./apps/treatments/Dockerfile
+    image: mhallihamza/sms_treatments
+    container_name: treatments
+    ports:
+      - '3007:3007'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+      
