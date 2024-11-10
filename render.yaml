@@ -1,0 +1,80 @@
+services:
+  - name: api-gateway
+    type: web
+    env: docker
+    plan: free # Choose your plan (free or paid)
+    dockerfilePath: ./apps/api-gateway/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3000"
+    healthCheckPath: /
+  
+  - name: auth
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/auth/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3001"
+    healthCheckPath: /
+  
+  - name: users
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/users/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3002"
+    healthCheckPath: /
+
+  - name: customers
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/customers/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3003"
+    healthCheckPath: /
+  
+  - name: appointments
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/appointments/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3004"
+    healthCheckPath: /
+
+  - name: staff
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/staff/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3005"
+    healthCheckPath: /
+  
+  - name: services
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/services/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3006"
+    healthCheckPath: /
+  
+  - name: treatments
+    type: web
+    env: docker
+    plan: free
+    dockerfilePath: ./apps/treatments/Dockerfile
+    envVars:
+      - key: PORT
+        value: "3007"
+    healthCheckPath: /
