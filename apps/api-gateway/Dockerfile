@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 RUN npm install -g @nestjs/cli
-
+cd c
 # Set the working directory
 WORKDIR /app
 

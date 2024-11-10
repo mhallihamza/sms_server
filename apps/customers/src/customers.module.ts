@@ -9,14 +9,14 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: './apps/customers/.env',
+      envFilePath: './apps/customers/.env', // Specify the .env file path
+      isGlobal: true, // Make ConfigService globally available
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT'),
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
@@ -29,11 +29,18 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Customer]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'APPOINTMENT_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'appointments', port: 3004 },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('APPOINTMENTS_HOST'), // Use env variable for host
+            port: 3004, // Use env variable for port
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],

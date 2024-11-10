@@ -10,6 +10,7 @@ import { Appointment } from './appointment.entity';
   imports: [
     ConfigModule.forRoot({
       envFilePath: './apps/appointments/.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -21,28 +22,49 @@ import { Appointment } from './appointment.entity';
         database: configService.get<string>('DATABASE_NAME'),
         entities: [Appointment],
         synchronize: false, // Always set to false in production
-        migrations: [__dirname + '/migrations/*.ts'], // Location of migrations
+        migrations: [__dirname + '/migrations/*.ts'],
         migrationsRun: configService.get<string>('NODE_ENV') === 'production',
         ssl: { require: true, rejectUnauthorized: false },
       }),
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Appointment]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'CUSTOMER_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'customers', port: 3003 },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('CUSTOMERS_HOST'),
+            port: 3003,
+          },
+        }),
       },
       {
         name: 'TREATMENT_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'treatments', port: 3007 },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('TREATMENTS_HOST'),
+            port: 3007,
+          },
+        }),
       },
       {
         name: 'STAFF_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'staff', port: 3005 },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('STAFF_HOST'),
+            port: 3005,
+          },
+        }),
       },
     ]),
   ],

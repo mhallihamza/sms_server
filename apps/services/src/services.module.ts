@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       envFilePath: './apps/services/.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -28,16 +29,35 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Service]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'APPOINTMENT_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'appointments', port: 3004 },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>(
+              'APPOINTMENTS_HOST'
+            ),
+            port: configService.get<number>('APPOINTMENTS_PORT', 3004), // Default to 3004
+          },
+        }),
+        inject: [ConfigService],
       },
       {
         name: 'TREATMENT_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'treatments', port: 3007 },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>(
+              'TREATMENTS_HOST',
+              'localhost',
+            ), // Default to localhost
+            port: configService.get<number>('TREATMENTS_PORT', 3007), // Default to 3007
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],

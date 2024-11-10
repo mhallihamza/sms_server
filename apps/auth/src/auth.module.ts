@@ -11,6 +11,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ConfigModule.forRoot({
       envFilePath: './apps/auth/.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -29,11 +30,18 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([AuthUser]),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: 'USER_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'users', port: 3002 },
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('USERS_HOST'),
+            port: 3002,
+          },
+        }),
       },
     ]),
   ],

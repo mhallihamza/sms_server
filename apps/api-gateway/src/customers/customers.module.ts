@@ -2,18 +2,29 @@ import { Module } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CustomersController } from './customers.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ConfigModule.forRoot({
+      envFilePath: './apps/api-gateway/.env',
+    }),
+    ClientsModule.registerAsync([
       {
         name: 'CUSTOMER_SERVICE',
-        transport: Transport.TCP,
-        options: { host: 'customers', port: 3003 },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('CUSTOMERS_HOST'), // Fetch from .env
+            port: 3003,
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],
   providers: [CustomersService],
-  controllers: [CustomersController]
+  controllers: [CustomersController],
 })
 export class CustomersModule {}
