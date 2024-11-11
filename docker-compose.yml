@@ -6,7 +6,7 @@ services:
     image: mhallihamza/sms_api-gateway
     container_name: api-gateway
     ports:
-      - '${PORT}:3000'
+      - '3000:3000'
     networks:
       - app-network
   
@@ -17,7 +17,7 @@ services:
     image: mhallihamza/sms_auth
     container_name: auth
     ports:
-      - '${PORT}:3001'
+      - '3001:3001'
     networks:
       - app-network
     
@@ -28,7 +28,7 @@ services:
     image: mhallihamza/sms_users
     container_name: users
     ports:
-      - '${PORT}:3002'
+      - '3002:3002'
     networks:
       - app-network  
 
@@ -39,7 +39,7 @@ services:
     image: mhallihamza/sms_customers
     container_name: customers
     ports:
-      - '${PORT}:3003'
+      - '3003:3003'
     networks:
       - app-network
     
@@ -50,7 +50,7 @@ services:
     image: mhallihamza/sms_appointments
     container_name: appointments
     ports:
-      - '${PORT}:3004'
+      - '3004:3004'
     networks:
       - app-network
     
@@ -61,7 +61,7 @@ services:
     image: mhallihamza/sms_staff
     container_name: staff
     ports:
-      - '${PORT}:3005'
+      - '3005:3005'
     networks:
       - app-network
     
@@ -72,7 +72,7 @@ services:
     image: mhallihamza/sms_services
     container_name: services
     ports:
-      - '${PORT}:3006'
+      - '3006:3006'
     networks:
       - app-network
   
@@ -83,7 +83,7 @@ services:
     image: mhallihamza/sms_treatments
     container_name: treatments
     ports:
-      - '${PORT}:3007'
+      - '3007:3007'
     networks:
       - app-network
 
